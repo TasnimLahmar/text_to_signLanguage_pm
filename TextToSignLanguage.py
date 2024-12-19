@@ -117,10 +117,6 @@ def process_text(text):
     usefull_words = [str(w).lower() for w in words if w.lower() not in set(useless_words.words())]
 
     # TODO: Add stemming to words and change search accordingly. Ex: 'talking' will yield 'talk'.
-    # from nltk.stem import PorterStemmer
-    # ps = PorterStemmer()
-    # usefull_stems = [ps.stem(word) for word in usefull_words]
-    # print("Stems: " + str(usefull_stems))
 
     # TODO: Create Sytnax such that the words will be in ASL order as opposed to PSE.
 
@@ -136,107 +132,6 @@ def is_video_reencoded(w, SIGN_PATH):
     encoded_path = SIGN_PATH + "\\" + w + ".mp4"
     return os.path.exists(encoded_path)
 
-
-# def merge_signs(words, SIGN_PATH):
-#     # Print the words being merged
-#     print("Merging words:", words)
-#
-#     # Check if ReEncoded directory exists
-#     reencoded_dir = os.path.join(SIGN_PATH, "ReEncoded")
-#     if not os.path.exists(reencoded_dir):
-#         os.makedirs(reencoded_dir)
-#
-#     # Re-encode and store the paths of re-encoded files
-#     re_encoded_files = []
-#     for w in words:
-#         input_file = os.path.join(SIGN_PATH, f"{w}_encoded.mp4")
-#         print("Input file:", input_file)
-#         if not os.path.exists(input_file):
-#             print(f"Error: Input file '{input_file}' not found.")
-#             continue
-#
-#         output_file = os.path.join(reencoded_dir, f"{w}_reencoded.mp4")
-#         re_encode_video(input_file, output_file)
-#         re_encoded_files.append(output_file)
-#
-#     # Write a text file containing all the paths to each re-encoded video
-#     with open("vidlist.txt", 'w') as f:
-#         for file_path in re_encoded_files:
-#             f.write(f"file '{file_path}'\n")
-#
-#     # Concatenate the re-encoded videos
-#     command = "ffmpeg -f concat -safe 0 -i vidlist.txt -c copy output.mp4 -y"
-#     args = shlex.split(command)
-#     process = subprocess.Popen(args)
-#     process.wait()
-#
-#     # Copy the output file to destination folder
-#     output_path = os.path.join(SIGN_PATH, "Output", "outi.mp4")
-#     copyfile("output.mp4", output_path)
-#
-#     # Remove the temporary and re-encoded files
-#     os.remove("output.mp4")
-#     for file_path in re_encoded_files:
-#         os.remove(file_path)
-
-
-# def merge_signs(words):
-#
-#     with open("vidlist.txt", 'w') as f:
-#         for w in words:
-#             f.write("file '" + SIGN_PATH + "\\" + w + "_encoded.mp4'\n")
-#
-#     command = "ffmpeg -f concat -safe 0 -i vidlist.txt -c copy output.mp4 -y"
-#
-#     # Splits the command into pieces in order to feed the command line
-#     args = shlex.split(command)
-#
-#     process = subprocess.Popen(args)
-#     process.wait() # Block code until process is complete
-#     copyfile("output.mp4",SIGN_PATH + "\\Output\\outi.mp4") # copyfile(src, dst)
-#     # remove the temporary file (it used to ask me if it should override previous file).
-#     import os
-#     os.remove("output.mp4")
-
-
-#
-# def re_encode_video(input_file, output_file):
-#     # Re-encode the video with consistent properties
-#     command = f"ffmpeg -i {input_file} -c:v libx264 -preset medium -crf 23 -c:a aac -b:a 128k -vf scale=1920:1080 -r 30 {output_file}"
-#     args = shlex.split(command)
-#     process = subprocess.Popen(args)
-#     process.wait()
-#
-#
-# def merge_signs(words, SIGN_PATH):
-#     re_encoded_files = []
-#
-#     # Re-encode each video and store the paths of re-encoded files
-#     for w in words:
-#         input_file = os.path.join(SIGN_PATH, w + ".mp4")
-#         output_file = os.path.join(SIGN_PATH, "ReEncoded", w + "_reencoded.mp4")
-#         re_encode_video(input_file, output_file)
-#         re_encoded_files.append(output_file)
-#
-#     # Write a text file containing all the paths to each re-encoded video
-#     with open("vidlist.txt", 'w') as f:
-#         for file_path in re_encoded_files:
-#             f.write("file '" + file_path + "'\n")
-#
-#     # Concatenate the re-encoded videos
-#     command = "ffmpeg -f concat -safe 0 -i vidlist.txt -c copy output.mp4 -y"
-#     args = shlex.split(command)
-#     process = subprocess.Popen(args)
-#     process.wait()
-#
-#     # Copy the output file to destination folder
-#     output_path = os.path.join(SIGN_PATH, "Output", "outi.mp4")
-#     copyfile("output.mp4", output_path)
-#
-#     # Remove the temporary and re-encoded files
-#     os.remove("output.mp4")
-#     for file_path in re_encoded_files:
-#         os.remove(file_path)
 
 
 def merge_signs(words):
@@ -306,8 +201,8 @@ def find_in_db(w):
     if best_score > SIMILIARITY_RATIO:
         return best_vid_name
 # Get text
-#text = str(input("Enter the text you would like to translate to pse \n"))
-text = "no please"
+text = str(input("Enter the text you would like to translate to sign language \n"))
+#text = "no please"
 print("Text: " + text)
 # Process text
 words = process_text(text)
